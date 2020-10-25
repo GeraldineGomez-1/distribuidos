@@ -10,39 +10,39 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SuscribeViewController">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.SubscribeViewController">
   <children>
-    <MenuBar style="-fx-background-color: #5DADE2;" VBox.vgrow="NEVER">
+    <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Suscripciones">
-          <items>
-            <MenuItem fx:id="msgBtn" mnemonicParsing="false" onAction="#goToMesagges" text="Mensajes" />
-          </items>
-        </Menu>
-            <Menu mnemonicParsing="false" text="Artistas">
+        <Menu mnemonicParsing="false" text="Artistas">
                <items>
                   <MenuItem mnemonicParsing="false" text="Ver" />
+               </items>
+        </Menu>
+            <Menu mnemonicParsing="false" text="Suscripciones">
+               <items>
+            <MenuItem fx:id="msgBtn" mnemonicParsing="false" onAction="#goToPosts" text="Mensajes" />
                </items>
             </Menu>
       </menus>
     </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
-        <Label alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+        <Label fx:id="label" alignment="CENTER" layoutX="155.0" layoutY="177.0" style="&#10;" text="Drag components from Library here…" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
           <font>
             <Font size="18.0" />
           </font>
         </Label>
-            <AnchorPane layoutY="-1.0" prefHeight="375.0" prefWidth="641.0" style="-fx-background-color: white;">
+            <AnchorPane layoutX="3.0" prefHeight="377.0" prefWidth="762.0" style="-fx-background-color: white;">
                <children>
-                  <TableView fx:id="tableSuscribe" focusTraversable="false" layoutX="107.0" layoutY="75.0" prefHeight="254.0" prefWidth="427.0">
+                  <TableView fx:id="tableSubscribe" focusTraversable="false" layoutX="168.0" layoutY="73.0" prefHeight="248.0" prefWidth="427.0">
                     <columns>
                       <TableColumn fx:id="columnId" prefWidth="34.0" text="N°" />
                       <TableColumn fx:id="columnArtist" prefWidth="299.0" text="Artista" />
                         <TableColumn fx:id="columnActions" minWidth="0.0" prefWidth="92.0" text="Acciones" />
                     </columns>
                   </TableView>
-                  <Label layoutX="283.0" layoutY="21.0" text="Artistas">
+                  <Label layoutX="344.0" layoutY="26.0" text="Artistas">
                      <font>
                         <Font name="Century Gothic Bold" size="22.0" />
                      </font>
