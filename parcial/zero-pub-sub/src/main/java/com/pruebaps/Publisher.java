@@ -3,6 +3,7 @@ package com.pruebaps;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,7 +16,6 @@ import model.Crick;
 
 import org.zeromq.ZContext;
 import java.util.Scanner;
-
 //
 // Patron distribucion one-way data, Publicador Suscriptor
 // Tomado de: http://zguide.zeromq.org/java:chapter1
@@ -123,8 +123,9 @@ public class Publisher
                 	//System.out.println(crick.getMessage());
                 	//System.out.println(crick.getArtist().getName());
 
+            		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
                 	String mensajeCrick = String.format(
-                            "%s %s", crick.getArtist().getName(), crick.getMessage()
+                            "%s %s %s %s", crick.getArtist().getName(), crick.getMessage(), crick.getDatePublishing(), crick.getTimePublishing().format(dtf)
                         );
                 	System.out.println(mensajeCrick);
                         //Envia el mensaje a todos los suscriptores

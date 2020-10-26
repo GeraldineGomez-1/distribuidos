@@ -19,18 +19,23 @@ import org.zeromq.ZContext;
 //  Connects SUB socket to tcp://localhost:5556
 //  Collects weather updates and finds avg temp in zipcode
 //
+
+
+
 public class Subscriber
 {
+	
     public static void main(String[] args)
     {
     	
     	Scanner sc = new Scanner(System.in);
     	
-    	List<String> mensajes = new ArrayList<>();
+    	//List<String> mensajes = new ArrayList<>();
     	
     	
-        //Establece el ambiente o contexto zeromq
-        try (ZContext context = new ZContext()) {
+    	
+    	 //Establece el ambiente o contexto zeromq
+    	try (ZContext context = new ZContext()) {
             //  Socket to talk to server
             System.out.println("Bienvenido a Cricker");
             ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
@@ -46,9 +51,9 @@ public class Subscriber
             //crear el hilo
             //el hilo se queda leyendo
             //guardo lo que me llegue a "mensajes"
+            Subscrito t = new Subscrito();
             
-            
-            while(true) {
+            while(!Thread.currentThread().isInterrupted()) {
                 System.out.println("Elige una opcion");
                 System.out.println("1. Suscribirme a un artista");
                 System.out.println("2. Ver mensajes");
@@ -79,25 +84,44 @@ public class Subscriber
                 	filter = artista;
                     subscriber.subscribe(filter.getBytes(ZMQ.CHARSET));
                 }else if(opcion == 2) {
-                	while(true) {
-                		String string = subscriber.recvStr(0).trim();
-                        
-                		//for de todos los "mensajes"
-                        StringTokenizer sscanf = new StringTokenizer(string, " ");
-                        String nombreArtista= sscanf.nextToken();
-                        String mensaje = sscanf.nextToken();
-                        if(nombreArtista.compareTo("Artistas") == 0) {
-                        	System.out.println("HAY UN NUEVO ARTISTA AL QUE TE PUEDES SUBSCRIBIR");
-                        	System.out.println(mensaje);
-                        }else {
-                        	 System.out.println("Nuevo mensaje");
-                             System.out.println("Artista: " + nombreArtista);
-                             System.out.println("Mensaje: " + mensaje);
-                        }
+                	if(!t.isAlive()) {
+                		t.start();
                 	}
                 }	
             }
-
         }
-    }
+    }  
+}
+class Subscrito extends Thread {
+	
+	private ZContext context;
+
+	public Subscrito() {
+	}
+	
+	@Override
+	public void run() {
+		context = new ZContext();
+    	ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
+    	subscriber.connect("tcp://192.168.0.10:5556");
+    	while(!Thread.currentThread().isInterrupted()) {
+    		String string = subscriber.recvStr(0).trim();
+            
+    		//for de todos los "mensajes"
+            StringTokenizer sscanf = new StringTokenizer(string, " ");
+            String nombreArtista= sscanf.nextToken();
+            String mensaje = sscanf.nextToken();
+            
+            if(nombreArtista.compareTo("Artistas") == 0) {
+            	System.out.println("HAY UN NUEVO ARTISTA AL QUE TE PUEDES SUBSCRIBIR");
+            	System.out.println(mensaje);
+            }
+            else {
+            	 System.out.println("Nuevo mensaje");
+                 System.out.println("Artista: " + nombreArtista);
+                 System.out.println("Mensaje: " + mensaje);
+            }
+    	}
+	}
+	
 }

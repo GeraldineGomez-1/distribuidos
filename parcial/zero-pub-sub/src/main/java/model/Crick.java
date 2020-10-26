@@ -9,13 +9,14 @@ public class Crick {
 	private LocalDate datePublishing;
 	private LocalTime timePublishing;
 	private String message;
+	
 
 	public Crick() {
-
+		datePublishing = LocalDate.now();
+		timePublishing = LocalTime.now();
 	}
 
 	public Crick(String pMessage, Artist pArtist) {
-		
 		datePublishing = LocalDate.now();
 		timePublishing = LocalTime.now();
 		artist = pArtist;
