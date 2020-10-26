@@ -3,8 +3,17 @@
    -fx-background-color: #FF7400;
 }
 
-.menu-bar{
-   -fx-background-color: linear-gradient(#FFA91C, #FFBE53), radial-gradient(center 0% -50%, radius 200%, #FFA91C 25%, #FFBE53 30%);
+.menu-bar {
+   -fx-background-color: linear-gradient(#FFA91C, #FFBE53);
+   -fx-border-color: #FF9F00;
+}
+
+.menu{
+   -fx-background-color: linear-gradient(#FFA91C, #FFBE53);
+}
+
+.menu-item:hover{
+  -fx-background-color: #FF7400;
 }
 
 .table-view{

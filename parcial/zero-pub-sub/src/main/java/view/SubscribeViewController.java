@@ -25,6 +25,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Artist;
 
+
+/**
+ * Controlador de la vista donde se muestran el usuario
+ * puede subscribirse a los diferentes artistas 
+ * @author Grupo 2
+ *
+ */
 public class SubscribeViewController {
 
 	@FXML
@@ -49,17 +56,18 @@ public class SubscribeViewController {
 	private URL location;
 
 
-	private final ObservableList<Artist> data =
-			FXCollections.observableArrayList(
-					new Artist(1, "Jacob Smith"), new Artist(2, "Jacob Smith")
-					);
+	private ObservableList<Artist> data;
+			
     
 	private Subscriber suscriber;
+	
 	
 	public SubscribeViewController() {
 		tableSubscribe = new TableView<Artist>();
         suscriber = new Subscriber();
-
+        data = FXCollections.observableArrayList(
+			   new Artist(1, "Jacob Smith"), new Artist(2, "Jacob Smith")
+			   );
 	}
 	
 	@FXML
@@ -71,11 +79,10 @@ public class SubscribeViewController {
 		columnArtist.setCellValueFactory(
 				new PropertyValueFactory<Artist, String>("name"));
         
-		
-		tableSubscribe.setItems(suscriber.getData());
+		data = suscriber.getData();
+		tableSubscribe.setItems(data);
 		addButtonToTable();
 		
-
 		
 	}
 
@@ -114,27 +121,15 @@ public class SubscribeViewController {
 					{ 
 						btn.setFocusTraversable(false);
 						btn.setOnAction(new EventHandler<ActionEvent>() {
-						    @Override public void handle(ActionEvent e) {
-						    	
-						    	
-						    	Object row = getTableView().getItems().get(getIndex());
-
-						    	 //Data data = getTableView().getItems().get(getIndex());
-		                        System.out.println("selectedData: " + data.get(getIndex()).getName());
+						    @Override public void handle(ActionEvent e) {   							
+						    	Artist row = data.get(getIndex());
+						    	//Data data = getTableView().getItems().get(getIndex());
+		                        System.out.println("selectedData: " + row.getName());
 						    }
 						});
 						
 						btn.setId("btn-subscribe");
 
-						//btn.setStyle(""
-						//+ "-fx-border-color: blue;  transition-duration: 0.4s; ");
-					
-						
-
-						/*btn.setOnAction((ActionEvent event) -> {
-                            Data data = getTableView().getItems().get(getIndex());
-                            System.out.println("selectedData: " + data);
-                        });*/
 					}
 
 					@Override

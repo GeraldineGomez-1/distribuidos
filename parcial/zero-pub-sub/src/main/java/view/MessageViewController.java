@@ -19,6 +19,12 @@ import javafx.stage.Stage;
 import model.Artist;
 import model.Crick;
 
+/**
+ * Controlador de la vista donde se muestran
+ * los mensajes del publicador 
+ * @author Grupo 2
+ *
+ */
 public class MessageViewController {
 
 	@FXML
@@ -42,8 +48,8 @@ public class MessageViewController {
 	@FXML
 	private TableColumn<Crick, String> columnMessage;
 	
-	
-	@FXML Label label;
+	@FXML 
+	private Label label;
 	
 	
 	private final ObservableList<Crick> data =

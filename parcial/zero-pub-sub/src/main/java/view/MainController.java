@@ -10,6 +10,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Controlador principal de las vistas, es donde
+ * inicia la aplicación
+ * @author Grupo 2
+ *
+ */
 public class MainController extends Application {
 
 	private Stage mainStage;
@@ -30,38 +36,15 @@ public class MainController extends Application {
 		mainStage.show();    
 
 	}
-
-	public void start() {
-
-		mainStage = new Stage();
-
-		Parent root;
-		try {
-			root = FXMLLoader.load(getClass().getResource(UI));
-			Scene frame = new Scene(root);
-			mainStage.isResizable();
-			mainStage.setTitle("Artistas");
-			mainStage.setScene(frame);
-			mainStage.centerOnScreen();
-			mainStage.show(); 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+	
+	public Stage getMainStage() {
+		return mainStage;
 	}
 
-	public boolean setScene(String UI) throws IOException {
 
-		boolean done = true;
-		Parent root = FXMLLoader.load(getClass().getResource(UI));
-		Scene frame = new Scene(root);
-
-		mainStage.setScene(frame);
-
-		return done;
-
+	public void setMainStage(Stage mainStage) {
+		this.mainStage = mainStage;
 	}
-
 
 	public static void main(String[] args) {
 	

@@ -26,12 +26,15 @@ import org.zeromq.ZContext;
 //
 public class Subscriber extends Thread
 {   
-	public ObservableList<Artist> data =
-			FXCollections.observableArrayList(
-					new Artist(1, "Jacob Smith"), new Artist(2, "Jacob Smith")
-					);
+	public ObservableList<Artist> data;
 	
 	public String [] args;
+	
+	
+	public Subscriber() {
+		data = FXCollections.observableArrayList();
+	}
+	
 	public void init() {
 		 
 		//Establece el ambiente o contexto zeromq
@@ -77,14 +80,13 @@ public class Subscriber extends Thread
 				}
 	}
 	
-	
-	
 	public ObservableList<Artist> getData() {
-	    
+	   
 		data.add(new Artist(2, "Jacob Smith"));
 		return data;
 
 	}
+	
      public void run(){
 		init();
 		
