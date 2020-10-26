@@ -20,11 +20,11 @@ public class Crick {
 	}
 
 	public Crick() {
-
+		datePublishing = LocalDate.now();
+		timePublishing = LocalTime.now();
 	}
 
 	public Crick(String pMessage, Artist pArtist) {
-
 		datePublishing = LocalDate.now();
 		timePublishing = LocalTime.now();
 		artist = pArtist;
