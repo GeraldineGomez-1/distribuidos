@@ -80,12 +80,7 @@ public class Subscriber extends Thread
 				}
 	}
 	
-	public ObservableList<Artist> getData() {
-	   
-		data.add(new Artist(2, "Jacob Smith"));
-		return data;
-
-	}
+	
 	
      public void run(){
 		init();
