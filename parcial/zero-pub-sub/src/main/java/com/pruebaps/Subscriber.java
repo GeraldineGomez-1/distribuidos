@@ -31,6 +31,7 @@ import org.zeromq.ZContext;
 //  Collects weather updates and finds avg temp in zipcode
 //
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class Subscriber extends Thread
 {   
 	public ObservableList<Artist> data;
@@ -95,6 +96,8 @@ public class Subscriber extends Thread
 	}
 
 =======
+=======
+>>>>>>> view
 
 
 
@@ -211,5 +214,8 @@ class Subscrito extends Thread {
 	public ArrayList<String> getMensajes(){
 		return this.mensajes;
 	}
+<<<<<<< HEAD
 >>>>>>> daniel
+=======
+>>>>>>> view
 }

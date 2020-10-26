@@ -28,8 +28,6 @@ public class Publisher
 {
     public static void main(String[] args) throws Exception
     {
-<<<<<<< HEAD
-=======
     	int auxId = 1;
     	Scanner sc = new Scanner(System.in);
     	List<Artist> artistas = new ArrayList<>();
@@ -43,7 +41,6 @@ public class Publisher
     	      System.out.println("An error occurred.");
     	}
     	
->>>>>>> daniel
     	
         //Establece el ambiente o contexto zeromq
         try (ZContext context = new ZContext()) {
@@ -53,10 +50,6 @@ public class Publisher
             publisher.bind("tcp://*:5556");
             publisher.bind("ipc://weather");
 
-<<<<<<< HEAD
-            //  Inicializa los numeros al azar
-            Random srandom = new Random(System.currentTimeMillis());
-       	 
             while (!Thread.currentThread().isInterrupted()) {
                 //  Obtiene los valores
                 int zipcode, temperature, relhumidity;
@@ -158,7 +151,6 @@ public class Publisher
             	}
             	
                 
->>>>>>> daniel
             }
         }
     }
