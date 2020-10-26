@@ -125,7 +125,7 @@ public class Publisher
 
             		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
                 	String mensajeCrick = String.format(
-                            "%s %s %s %s", crick.getArtist().getName(), crick.getMessage(), crick.getDatePublishing(), crick.getTimePublishing().format(dtf)
+                            "%s, %s, %s %s", crick.getArtist().getName(), crick.getMessage(), crick.getDatePublishing(), crick.getTimePublishing().format(dtf)
                         );
                 	System.out.println(mensajeCrick);
                         //Envia el mensaje a todos los suscriptores

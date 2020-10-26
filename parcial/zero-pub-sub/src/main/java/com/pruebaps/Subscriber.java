@@ -42,7 +42,7 @@ public class Subscriber
             //Conecta el socket a un puerto
             //subscriber.connect("tcp://localhost:5556");
             //Prueba red domestica
-            subscriber.connect("tcp://192.168.0.10:5556");
+            subscriber.connect("tcp://192.168.0.126:5556");
             
             String filter = (args.length > 0) ? args[0] : "Artistas ";
             //Se suscribe con codigo especial que le permitira filtar los mensajes del publicador
@@ -51,7 +51,7 @@ public class Subscriber
             //crear el hilo
             //el hilo se queda leyendo
             //guardo lo que me llegue a "mensajes"
-            Subscrito t = new Subscrito();
+            Subscrito t = new Subscrito(subscriber);
             
             while(!Thread.currentThread().isInterrupted()) {
                 System.out.println("Elige una opcion");
@@ -94,23 +94,30 @@ public class Subscriber
 }
 class Subscrito extends Thread {
 	
-	private ZContext context;
+	private ZMQ.Socket subscriber;
+	public ArrayList<String> mensajes = new ArrayList<String>();
 
-	public Subscrito() {
+	public Subscrito(ZMQ.Socket subscriber) {
+		this.subscriber = subscriber;
 	}
 	
 	@Override
 	public void run() {
-		context = new ZContext();
+		/*context = new ZContext();
     	ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
-    	subscriber.connect("tcp://192.168.0.10:5556");
+    	subscriber.connect("tcp://192.168.0.126:5556");*/
     	while(!Thread.currentThread().isInterrupted()) {
     		String string = subscriber.recvStr(0).trim();
-            
+            mensajes.add(string);
+            ArrayList<String> local = getMensajes();
+            for(String it: local) {
+            	System.out.println(it);
+            }
     		//for de todos los "mensajes"
-            StringTokenizer sscanf = new StringTokenizer(string, " ");
+            StringTokenizer sscanf = new StringTokenizer(string, ",");
             String nombreArtista= sscanf.nextToken();
             String mensaje = sscanf.nextToken();
+            String fecha = sscanf.nextToken();
             
             if(nombreArtista.compareTo("Artistas") == 0) {
             	System.out.println("HAY UN NUEVO ARTISTA AL QUE TE PUEDES SUBSCRIBIR");
@@ -120,8 +127,12 @@ class Subscrito extends Thread {
             	 System.out.println("Nuevo mensaje");
                  System.out.println("Artista: " + nombreArtista);
                  System.out.println("Mensaje: " + mensaje);
+                 System.out.println("Fecha: " + fecha);
             }
     	}
 	}
 	
+	public ArrayList<String> getMensajes(){
+		return this.mensajes;
+	}
 }
