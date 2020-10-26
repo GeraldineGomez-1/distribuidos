@@ -9,6 +9,7 @@ public class Crick {
 	private LocalDate datePublishing;
 	private LocalTime timePublishing;
 	private String message;
+<<<<<<< HEAD
 	private String artistName;
 
 	public String getArtistName() {
@@ -18,13 +19,20 @@ public class Crick {
 	public void setArtistName(String artistName) {
 		this.artistName = artistName;
 	}
+=======
+	
+>>>>>>> daniel
 
 	public Crick() {
-
+		datePublishing = LocalDate.now();
+		timePublishing = LocalTime.now();
 	}
 
 	public Crick(String pMessage, Artist pArtist) {
+<<<<<<< HEAD
 
+=======
+>>>>>>> daniel
 		datePublishing = LocalDate.now();
 		timePublishing = LocalTime.now();
 		artist = pArtist;
