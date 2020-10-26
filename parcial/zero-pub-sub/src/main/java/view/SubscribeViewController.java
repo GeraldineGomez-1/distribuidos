@@ -3,9 +3,12 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 
+import com.pruebaps.Subscriber;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -48,15 +51,17 @@ public class SubscribeViewController {
 
 	private final ObservableList<Artist> data =
 			FXCollections.observableArrayList(
-					new Artist(1, "Jacob Smith")
+					new Artist(1, "Jacob Smith"), new Artist(2, "Jacob Smith")
 					);
-
+    
+	private Subscriber suscriber;
+	
 	public SubscribeViewController() {
 		tableSubscribe = new TableView<Artist>();
+        suscriber = new Subscriber();
 
 	}
-
-
+	
 	@FXML
 	private void initialize() 
 	{
@@ -65,10 +70,13 @@ public class SubscribeViewController {
 
 		columnArtist.setCellValueFactory(
 				new PropertyValueFactory<Artist, String>("name"));
-
-		tableSubscribe.setItems(data);
-
+        
+		
+		tableSubscribe.setItems(suscriber.getData());
 		addButtonToTable();
+		
+
+		
 	}
 
 	@FXML
@@ -101,11 +109,27 @@ public class SubscribeViewController {
 			public TableCell<Data, Void> call(final TableColumn<Data, Void> param) {
 				TableCell<Data, Void> cell = new TableCell<Data, Void>() {
 
-					private final Button btn = new Button("Suscribirse");
+					private Button btn = new Button("Suscribirse");
 
 					{ 
 						btn.setFocusTraversable(false);
-						//btn.setStyle("-fx-background-color:  #5DADE2");
+						btn.setOnAction(new EventHandler<ActionEvent>() {
+						    @Override public void handle(ActionEvent e) {
+						    	
+						    	
+						    	Object row = getTableView().getItems().get(getIndex());
+
+						    	 //Data data = getTableView().getItems().get(getIndex());
+		                        System.out.println("selectedData: " + data.get(getIndex()).getName());
+						    }
+						});
+						
+						btn.setId("btn-subscribe");
+
+						//btn.setStyle(""
+						//+ "-fx-border-color: blue;  transition-duration: 0.4s; ");
+					
+						
 
 						/*btn.setOnAction((ActionEvent event) -> {
                             Data data = getTableView().getItems().get(getIndex());

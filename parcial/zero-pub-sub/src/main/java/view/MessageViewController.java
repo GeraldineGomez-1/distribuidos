@@ -37,7 +37,7 @@ public class MessageViewController {
 	private TableColumn<Crick, LocalTime> columnTime;
 	
 	@FXML
-	private TableColumn<Artist, String> columnArtist;
+	private TableColumn<Crick, String> columnArtist;
 	
 	@FXML
 	private TableColumn<Crick, String> columnMessage;
@@ -58,9 +58,7 @@ public class MessageViewController {
 	@FXML
     private void initialize() 
     {
-		/*columnId.setCellValueFactory(
-                new PropertyValueFactory<Crick, Integer>("id"));
-		
+				
 		columnDate.setCellValueFactory(
                 new PropertyValueFactory<Crick, LocalDate>("datePublishing"));
 		
@@ -71,9 +69,9 @@ public class MessageViewController {
                 new PropertyValueFactory<Crick, String>("message"));
 		
 		columnArtist.setCellValueFactory(
-                new PropertyValueFactory<Artist, String>("artist"));
+                new PropertyValueFactory<Crick, String>("artistName"));
 		
-		//tablePosts.setItems(data);*/
+		tablePosts.setItems(data);
 		
 		
     }

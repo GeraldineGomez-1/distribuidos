@@ -14,14 +14,14 @@
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
-        <Menu mnemonicParsing="false" text="Sucripciones">
-          <items>
-            <MenuItem fx:id="subscriptionsBtn" mnemonicParsing="false" onAction="#goToSubscriptions" text="Ver" />
-          </items>
-        </Menu>
         <Menu mnemonicParsing="false" text="Artistas">
           <items>
-            <MenuItem mnemonicParsing="false" text="Novedades" onAction="#goToPosts" />
+            <MenuItem mnemonicParsing="false" onAction="#goToPosts" text="Novedades" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Suscripciones">
+          <items>
+            <MenuItem fx:id="subscriptionsBtn" mnemonicParsing="false" onAction="#goToSubscriptions" text="Ver" />
           </items>
         </Menu>
       </menus>
@@ -37,11 +37,10 @@
                <children>
                  <TableView fx:id="tablePosts" focusTraversable="false" layoutX="65.0" layoutY="87.0" prefHeight="247.0" prefWidth="640.0">
                     <columns>
-                      <TableColumn fx:id="columnId" prefWidth="34.0" text="N°" />
-                      <TableColumn fx:id="columnArtist" prefWidth="94.0" text="Fecha" />
-                        <TableColumn minWidth="0.0" prefWidth="86.0" text="Hora" />
-                        <TableColumn prefWidth="178.0" text="Artista" />
-                        <TableColumn prefWidth="247.0" text="Mensaje" />
+                       <TableColumn fx:id="columnDate" prefWidth="94.0" text="Fecha" />
+                        <TableColumn fx:id="columnTime" minWidth="0.0" prefWidth="86.0" text="Hora" />
+                        <TableColumn fx:id="columnArtist" prefWidth="178.0" text="Artista" />
+                        <TableColumn fx:id="columnMessage" prefWidth="280.0" text="Mensaje" />
                     </columns>
                   </TableView>
                   <Label layoutX="316.0" layoutY="30.0" text="Novedades">

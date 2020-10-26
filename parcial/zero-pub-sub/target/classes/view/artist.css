@@ -1,6 +1,29 @@
-@charset "ISO-8859-1";
 
+.menu:hover{
+   -fx-background-color: #FF7400;
+}
 
-.e{
-	-fx-background-color: blue;
+.menu-bar{
+   -fx-background-color: linear-gradient(#FFA91C, #FFBE53), radial-gradient(center 0% -50%, radius 200%, #FFA91C 25%, #FFBE53 30%);
+}
+
+.table-view{
+    -fx-text-align: left;
+}
+
+.table-view .column-header {
+    -fx-background-color: linear-gradient(#FFA91C, #FFBE53);
+    -fx-border-color: #FF9F00;
+    -fx-text-align: left;
+}
+
+#btn-subscribe{
+	-fx-background-color: red;
+	-fx-font-size: 12px;
+	-fx-background-color: linear-gradient(#FFA91C, #FFBE53), radial-gradient(center 50% -40%, radius 200%, #FFA91C 45%, #FFBE53 50%);
+}
+
+#btn-subscribe:hover{
+	-fx-background-color: #FFBE53;
+	
 }

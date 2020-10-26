@@ -17,6 +17,7 @@ public class Publisher
 {
     public static void main(String[] args) throws Exception
     {
+    	
         //Establece el ambiente o contexto zeromq
         try (ZContext context = new ZContext()) {
             //Crea un socket tipo PUB
@@ -27,18 +28,21 @@ public class Publisher
 
             //  Inicializa los numeros al azar
             Random srandom = new Random(System.currentTimeMillis());
+       	 
             while (!Thread.currentThread().isInterrupted()) {
                 //  Obtiene los valores
                 int zipcode, temperature, relhumidity;
                 zipcode = 10000 + srandom.nextInt(10000);
                 temperature = srandom.nextInt(215) - 80 + 1;
                 relhumidity = srandom.nextInt(50) + 10 + 1;
-
+           	 	
+  
                 // Crea el mensaje en cadena de caracteres
                 String update = String.format(
                     "%05d %d %d", zipcode, temperature, relhumidity
                 );
-                //Envia el mensaje a todos los suscriptores
+                
+                 //Envia el mensaje a todos los suscriptores
                 publisher.send(update, 0);
             }
         }
