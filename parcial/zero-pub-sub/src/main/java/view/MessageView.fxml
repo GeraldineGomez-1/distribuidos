@@ -16,12 +16,12 @@
       <menus>
         <Menu mnemonicParsing="false" text="Artistas">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#goToPosts" text="Novedades" />
+            <MenuItem mnemonicParsing="false" onAction="#goToSubscriptions" text="Ver" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Suscripciones">
+        <Menu mnemonicParsing="false" text="Subscripciones">
           <items>
-            <MenuItem fx:id="subscriptionsBtn" mnemonicParsing="false" onAction="#goToSubscriptions" text="Ver" />
+            <MenuItem fx:id="subscriptionsBtn" mnemonicParsing="false" onAction="#goToPosts"  text="Mensajes" />
           </items>
         </Menu>
       </menus>

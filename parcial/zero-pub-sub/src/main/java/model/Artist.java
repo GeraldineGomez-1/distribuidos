@@ -7,7 +7,8 @@ public class Artist {
 	private int id;
 	
 	private String name;
-
+	
+	private boolean  subscribed;
 
 	public Artist() {
 
@@ -17,6 +18,7 @@ public class Artist {
 	   
 		id = pId;
 		name = pName;
+		subscribed = false;
 	}
 
 	public int getId() {
@@ -35,6 +37,13 @@ public class Artist {
 		this.name = name;
 	}
 	
+	public boolean isSubscribed() {
+		return subscribed;
+	}
+
+	public void setSubscribed(boolean subscribed) {
+		this.subscribed = subscribed;
+	}
 
 
 }

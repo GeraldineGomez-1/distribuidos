@@ -3,9 +3,8 @@ package view;
 import java.io.IOException;
 import java.net.URL;
 
-import com.pruebaps.Subscriber;
+import com.pruebaps.SubscriberSingleton;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,14 +24,13 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.Artist;
 
-
 /**
  * Controlador de la vista donde se muestran el usuario
  * puede subscribirse a los diferentes artistas 
  * @author Grupo 2
  *
  */
-public class SubscribeViewController {
+public class SubscribeViewController{
 
 	@FXML
 	private TableView<Artist> tableSubscribe;
@@ -55,58 +53,57 @@ public class SubscribeViewController {
 	@FXML
 	private URL location;
 
-
-	private ObservableList<Artist> data;
-			
-    
-	private Subscriber suscriber;
-	
 	
 	public SubscribeViewController() {
 		tableSubscribe = new TableView<Artist>();
-        suscriber = new Subscriber();
-        data = FXCollections.observableArrayList(
-			   new Artist(1, "Jacob Smith"), new Artist(2, "Jacob Smith")
-			   );
 	}
-	
+
+	public void setDataTable(ObservableList<Artist> data) {
+		tableSubscribe.setItems(data);
+	}
+
 	@FXML
-	private void initialize() 
+	private void initialize() throws Exception 
 	{
 		columnId.setCellValueFactory(
 				new PropertyValueFactory<Artist, Integer>("id"));
 
 		columnArtist.setCellValueFactory(
 				new PropertyValueFactory<Artist, String>("name"));
-        
-		data = suscriber.getData();
-		tableSubscribe.setItems(data);
-		addButtonToTable();
-		
-		
+
+		tableSubscribe.setItems(SubscriberSingleton.getInstance().getSubscriber().getListArtists());
+		addButtonToTable();	
+
+
 	}
 
 	@FXML
-	public void goToPosts(ActionEvent event) throws IOException {
+	public void goToPosts(ActionEvent event) throws Exception {
 
-		Stage stage;
-		Parent root = FXMLLoader.load(getClass().getResource("MessageView.fxml"));
+
+		Stage stage = (Stage) label.getScene().getWindow();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("MessageView.fxml"));
+		Parent root = (Parent)loader.load();	
+
 		Scene frame = new Scene(root);
 
-		stage=(Stage) label.getScene().getWindow();
 		stage.setScene(frame);
 
+
 	}
-    
+
 	@FXML
 	public void goToSubscribe() throws IOException {
 
 		Stage stage;
 		Parent root = FXMLLoader.load(getClass().getResource("SubscribeView.fxml"));
+
 		Scene frame = new Scene(root);
 
 		stage=(Stage) label.getScene().getWindow();
 		stage.setScene(frame);
+
+
 	}
 
 	private void addButtonToTable() {
@@ -116,18 +113,21 @@ public class SubscribeViewController {
 			public TableCell<Data, Void> call(final TableColumn<Data, Void> param) {
 				TableCell<Data, Void> cell = new TableCell<Data, Void>() {
 
-					private Button btn = new Button("Suscribirse");
+					private Button btn = new Button("Subscribirse");
 
 					{ 
 						btn.setFocusTraversable(false);
 						btn.setOnAction(new EventHandler<ActionEvent>() {
-						    @Override public void handle(ActionEvent e) {   							
-						    	Artist row = data.get(getIndex());
-						    	//Data data = getTableView().getItems().get(getIndex());
-		                        System.out.println("selectedData: " + row.getName());
-						    }
+							@Override public void handle(ActionEvent e) {   							
+								Artist row = SubscriberSingleton.getInstance().getSubscriber().getListArtists().get(getIndex());
+								row.setSubscribed(true);
+								//Data data = getTableView().getItems().get(getIndex());
+								btn.setDisable(true);
+								SubscriberSingleton.getInstance().getSubscriber().suscribe(row.getName());
+
+							}
 						});
-						
+
 						btn.setId("btn-subscribe");
 
 					}
@@ -138,7 +138,12 @@ public class SubscribeViewController {
 						if (empty) {
 							setGraphic(null);
 						} else {
+							Artist row = SubscriberSingleton.getInstance().getSubscriber().getListArtists().get(getIndex());
+							if(row.isSubscribed()) {
+								btn.setDisable(true);
+							}
 							setGraphic(btn);
+						
 						}
 					}
 				};

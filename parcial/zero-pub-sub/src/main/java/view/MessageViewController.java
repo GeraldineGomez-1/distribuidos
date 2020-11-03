@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import com.pruebaps.SubscriberSingleton;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,7 +16,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import model.Artist;
 import model.Crick;
 
 /**
@@ -51,18 +50,15 @@ public class MessageViewController {
 	@FXML 
 	private Label label;
 	
-	
-	private final ObservableList<Crick> data =
-	        FXCollections.observableArrayList(
-	            new Crick("Lanzó su nuevo sencillo", new Artist(1, "Jacob Smith"))
-             );
-	
+		
+
 	public MessageViewController() {
 		 tablePosts = new TableView<Crick>();
+		 		 
 	}
 	
 	@FXML
-    private void initialize() 
+    private void initialize() throws Exception 
     {
 				
 		columnDate.setCellValueFactory(
@@ -76,9 +72,8 @@ public class MessageViewController {
 		
 		columnArtist.setCellValueFactory(
                 new PropertyValueFactory<Crick, String>("artistName"));
-		
-		tablePosts.setItems(data);
-		
+
+		tablePosts.setItems(SubscriberSingleton.getInstance().getSubscriber().getCricks());	    
 		
     }
 	
@@ -91,7 +86,7 @@ public class MessageViewController {
 		
 		stage=(Stage) label.getScene().getWindow();
 	    stage.setScene(frame);
-	    
+	  	    
 	}
 	
 	@FXML

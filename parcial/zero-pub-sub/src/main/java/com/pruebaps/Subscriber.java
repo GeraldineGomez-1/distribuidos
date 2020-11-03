@@ -2,220 +2,138 @@ package com.pruebaps;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZMQ;
 
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart.Data;
-import javafx.stage.Stage;
+import javafx.concurrent.Task;
 import model.Artist;
-import view.MainController;
-import view.MessageViewController;
-import view.SubscribeViewController;
+import model.Crick;
+
 
 import org.zeromq.ZContext;
 
-//
-// Patron distribucion one-way data, Publicador Suscriptor
-// Tomado de: http://zguide.zeromq.org/java:chapter1
-//  Weather update client in Java
-//  Connects SUB socket to tcp://localhost:5556
-//  Collects weather updates and finds avg temp in zipcode
-//
-<<<<<<< HEAD
-<<<<<<< HEAD
-public class Subscriber extends Thread
-{   
-	public ObservableList<Artist> data;
-	
-	public String [] args;
-	
-	
+public class Subscriber extends Task
+{
+
+	private ObservableList<Artist> artists;
+
+	private ObservableList<Crick> cricks;
+
+	private ZMQ.Socket subscriber;
+
 	public Subscriber() {
-		data = FXCollections.observableArrayList();
+
+		artists =  FXCollections.observableArrayList();
+		cricks = FXCollections.observableArrayList();
+
+	}
+
+	public void suscribe(String artist) {
+	
+		if (artist != null) {
+			SubscriberSingleton.getInstance().getSubscriber().getSubscriber().subscribe(artist.getBytes(ZMQ.CHARSET));
+
+		}
 	}
 	
-	public void init() {
-		 
-		//Establece el ambiente o contexto zeromq
-				try (ZContext context = new ZContext()) {
-					//  Socket to talk to server
-					System.out.println("Collecting updates from weather server");
-					//Crea un socket tipo SUB
-					ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
-					//Conecta el socket a un puerto
-					subscriber.connect("tcp://localhost:5556");
-					//Prueba red domestica
-					//subscriber.connect("tcp://192.168.0.14:5556");
+	public ObservableList<Artist> getArtists() throws Exception {
 
-					String filter = (args.length > 0) ? args[0] : "10001 ";
-					//Se suscribe con codigo especial que le permitira filtar los mensajes del publicador
-					subscriber.subscribe(filter.getBytes(ZMQ.CHARSET));
+		FileReader reader = new FileReader("Artistas.txt");
+		BufferedReader bufferedReader = new BufferedReader(reader);
 
-					//  Procesa 100 actualizaciones
-					int update_nbr;
-					long total_temp = 0;
-					for (update_nbr = 0; update_nbr < 100; update_nbr++) {
-						//Recibe el mensaje en cadena de caracteres
-						//Remueve el caracter '0' de la cola
-						String string = subscriber.recvStr(0).trim();
+		String line;
+		int i = 1;
 
-						//Saca el mensaje
-						StringTokenizer sscanf = new StringTokenizer(string, " ");
-						int zipcode = Integer.valueOf(sscanf.nextToken());
-						int temperature = Integer.valueOf(sscanf.nextToken());
-						int relhumidity = Integer.valueOf(sscanf.nextToken());
+		while ((line = bufferedReader.readLine()) != null) {
+			Artist newArtist = new Artist();
+			newArtist.setName(line);
+			newArtist.setId(i);
+			artists.add(newArtist);
+			i++;
+		}
 
-						total_temp += temperature;
-					}
+		reader.close();
+		return artists;
+	}
 
-					System.out.println(
-							String.format(
-									"Average temperature for zipcode '%s' was %d.",
-									filter,
-									(int)(total_temp / update_nbr)
-									)
-							);
+	@Override
+	protected Object call() throws Exception {
+
+		try (ZContext context = new ZContext()) {
+		
+			subscriber = context.createSocket(SocketType.SUB);
+			subscriber.connect("tcp://192.168.126.1:5556");
+
+			String filter = "Artistas,";
+			subscriber.subscribe(filter.getBytes(ZMQ.CHARSET));
+			while(!Thread.currentThread().isInterrupted()) {
+
+				String string = subscriber.recvStr(0).trim();
+
+				ArrayList<String> local = new ArrayList<String>();
+
+				for(String it: local) {
+					System.out.println(it);
+				}
+				//for de todos los "mensajes"
+				StringTokenizer sscanf = new StringTokenizer(string, ",");
+				String nombreArtista= sscanf.nextToken();
+				String mensaje = sscanf.nextToken();
+
+
+				if(nombreArtista.compareTo("Artistas") == 0) {
+					String id = sscanf.nextToken();
+					artists.add(new Artist(Integer.parseInt(id), mensaje));
+
+				}
+				else {
+					
+					String fecha = sscanf.nextToken();
+					String hora = sscanf.nextToken();			
+					Crick newCrick = new Crick(mensaje,nombreArtista, LocalDate.parse(fecha.trim()), LocalTime.parse(hora.trim()));
+					cricks.add(newCrick);
 					
 				}
+			}
+
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
-	
-	
-	
-     public void run(){
-		init();
-		
+	public ObservableList<Artist> getListArtists() {
+		return artists;
 	}
 
-=======
-=======
->>>>>>> view
+	public void setArtists(ObservableList<Artist> artists) {
+		this.artists = artists;
+	}
 
+	public ObservableList<Crick> getCricks() {
+		return cricks;
+	}
 
+	public void setCricks(ObservableList<Crick> cricks) {
+		this.cricks = cricks;
+	}
 
-public class Subscriber
-{
-	
-    public static void main(String[] args)
-    {
-    	
-    	Scanner sc = new Scanner(System.in);
-    	
-    	//List<String> mensajes = new ArrayList<>();
-    	
-    	
-    	
-    	 //Establece el ambiente o contexto zeromq
-    	try (ZContext context = new ZContext()) {
-            //  Socket to talk to server
-            System.out.println("Bienvenido a Cricker");
-            ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
-            //Conecta el socket a un puerto
-            //subscriber.connect("tcp://localhost:5556");
-            //Prueba red domestica
-            subscriber.connect("tcp://192.168.0.126:5556");
-            
-            String filter = (args.length > 0) ? args[0] : "Artistas ";
-            //Se suscribe con codigo especial que le permitira filtar los mensajes del publicador
-            subscriber.subscribe(filter.getBytes(ZMQ.CHARSET));
-            
-            //crear el hilo
-            //el hilo se queda leyendo
-            //guardo lo que me llegue a "mensajes"
-            Subscrito t = new Subscrito(subscriber);
-            
-            while(!Thread.currentThread().isInterrupted()) {
-                System.out.println("Elige una opcion");
-                System.out.println("1. Suscribirme a un artista");
-                System.out.println("2. Ver mensajes");
-                
-                int opcion = sc.nextInt();
-                sc.nextLine();
-                if(opcion == 1) {
-                	System.out.println("Estos son los artistas a los que te puedes subscribir");
-                	
-                	//lectura del archivo
-                	try {
-                        FileReader reader = new FileReader("Artistas.txt");
-                        BufferedReader bufferedReader = new BufferedReader(reader);
-             
-                        String line;
-             
-                        while ((line = bufferedReader.readLine()) != null) {
-                            System.out.println(line);
-                        }
-                        reader.close();
-             
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                	
-                	System.out.println("Me quiero subscribir a:");
-                	String artista = sc.nextLine();
-                	filter = artista;
-                    subscriber.subscribe(filter.getBytes(ZMQ.CHARSET));
-                }else if(opcion == 2) {
-                	if(!t.isAlive()) {
-                		t.start();
-                	}
-                }	
-            }
-        }
-    }  
-}
-class Subscrito extends Thread {
-	
-	private ZMQ.Socket subscriber;
-	public ArrayList<String> mensajes = new ArrayList<String>();
+	public ZMQ.Socket getSubscriber() {
+		return subscriber;
+	}
 
-	public Subscrito(ZMQ.Socket subscriber) {
+	public void setSubscriber(ZMQ.Socket subscriber) {
 		this.subscriber = subscriber;
 	}
-	
-	@Override
-	public void run() {
-		/*context = new ZContext();
-    	ZMQ.Socket subscriber = context.createSocket(SocketType.SUB);
-    	subscriber.connect("tcp://192.168.0.126:5556");*/
-    	while(!Thread.currentThread().isInterrupted()) {
-    		String string = subscriber.recvStr(0).trim();
-            mensajes.add(string);
-            ArrayList<String> local = getMensajes();
-            for(String it: local) {
-            	System.out.println(it);
-            }
-    		//for de todos los "mensajes"
-            StringTokenizer sscanf = new StringTokenizer(string, ",");
-            String nombreArtista= sscanf.nextToken();
-            String mensaje = sscanf.nextToken();
-            String fecha = sscanf.nextToken();
-            
-            if(nombreArtista.compareTo("Artistas") == 0) {
-            	System.out.println("HAY UN NUEVO ARTISTA AL QUE TE PUEDES SUBSCRIBIR");
-            	System.out.println(mensaje);
-            }
-            else {
-            	 System.out.println("Nuevo mensaje");
-                 System.out.println("Artista: " + nombreArtista);
-                 System.out.println("Mensaje: " + mensaje);
-                 System.out.println("Fecha: " + fecha);
-            }
-    	}
-	}
-	
-	public ArrayList<String> getMensajes(){
-		return this.mensajes;
-	}
-<<<<<<< HEAD
->>>>>>> daniel
-=======
->>>>>>> view
+
+
+
 }
+

@@ -5,10 +5,12 @@ import java.io.IOException;
 import com.pruebaps.Subscriber;
 
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.Artist;
 
 /**
  * Controlador principal de las vistas, es donde
@@ -16,19 +18,23 @@ import javafx.stage.Stage;
  * @author Grupo 2
  *
  */
-public class MainController extends Application {
+public class MainController {
 
 	private Stage mainStage;
 
 	private static String UI = "SubscribeView.fxml";
-
-	@Override
-	public void start(Stage stage) throws IOException {
+	
+	private SubscribeViewController scc;
+    	
+	public void start() throws IOException {
 
 		mainStage = new Stage();
-
-		Parent root = FXMLLoader.load(getClass().getResource(UI));
+		FXMLLoader loader = new FXMLLoader(getClass().getResource(UI));
+		Parent root = (Parent)loader.load();
 		Scene frame = new Scene(root);
+		//scc = (SubscribeViewController)loader.getController();
+		//scc.setDataTable(data);
+		
 		mainStage.isResizable();
 		mainStage.setTitle("Artistas");
 		mainStage.setScene(frame);
@@ -37,6 +43,7 @@ public class MainController extends Application {
 
 	}
 	
+
 	public Stage getMainStage() {
 		return mainStage;
 	}
@@ -45,24 +52,10 @@ public class MainController extends Application {
 	public void setMainStage(Stage mainStage) {
 		this.mainStage = mainStage;
 	}
-
-	public static void main(String[] args) {
 	
-		
-		Subscriber s = new Subscriber();
-		s.args = args;
-		
-		while (!Thread.currentThread().isInterrupted()) {
-			
-			s.init();
-			s.start();
-			launch(args);
-			
-		}
-		
-		
-		
+	public SubscribeViewController scc () {
+		return scc;
 	}
 
-	
+
 }
