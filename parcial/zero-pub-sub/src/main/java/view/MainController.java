@@ -2,15 +2,10 @@ package view;
 
 import java.io.IOException;
 
-import com.pruebaps.Subscriber;
-
-import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import model.Artist;
 
 /**
  * Controlador principal de las vistas, es donde
@@ -32,9 +27,7 @@ public class MainController {
 		FXMLLoader loader = new FXMLLoader(getClass().getResource(UI));
 		Parent root = (Parent)loader.load();
 		Scene frame = new Scene(root);
-		//scc = (SubscribeViewController)loader.getController();
-		//scc.setDataTable(data);
-		
+				
 		mainStage.isResizable();
 		mainStage.setTitle("Artistas");
 		mainStage.setScene(frame);

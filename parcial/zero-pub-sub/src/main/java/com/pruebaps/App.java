@@ -5,7 +5,7 @@ import javafx.stage.Stage;
 import view.MainController;
 
 /**
- * Hello world!
+ * Clase Aplicación
  *
  */
 public class App extends Application

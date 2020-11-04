@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZMQ;
@@ -56,10 +55,10 @@ public class Publisher
 				System.out.println("2. Enviar mensaje a fans");
 				System.out.print("Opción: ");
 
-				int opcion = sc.nextInt();
+				String opcion = sc.next();
 				sc.nextLine();
 
-				if(opcion == 1) {
+				if(opcion.equals("1")) {
 					//ingreso de datos y creo el artista
 					System.out.println("\nIngresa los datos del nuevo artista");
 					System.out.print("Nombre: ");
@@ -95,7 +94,7 @@ public class Publisher
 									
 				}
 
-				else if(opcion == 2) {
+				else if(opcion.equals("2")) {
 					System.out.println("\nArtistas");
 					System.out.print("Id   ");
 					System.out.println("Nombre");
@@ -114,7 +113,7 @@ public class Publisher
 							artist = a;
 						}
 					}
-					System.out.println("¿Qué mensaje le quieres compartir hoy " + artist.getName() + " a tus seguidores?");
+					System.out.println("\n¿Qué mensaje le quieres compartir hoy " + artist.getName() + " a tus seguidores?");
 					System.out.print("Mensaje: ");
 					sc.nextLine();
                     				
@@ -132,7 +131,7 @@ public class Publisher
 					publisher.send(mensajeCrick, 0);
 					System.out.println();
 				}else {
-					System.out.println("\nOpcion no valida");
+					System.out.println("\nOpcion no valida\n");
 				}
 
 

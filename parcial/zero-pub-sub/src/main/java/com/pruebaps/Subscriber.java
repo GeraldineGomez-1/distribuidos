@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import org.zeromq.SocketType;
@@ -77,12 +76,6 @@ public class Subscriber extends Task
 
 				String string = subscriber.recvStr(0).trim();
 
-				ArrayList<String> local = new ArrayList<String>();
-
-				for(String it: local) {
-					System.out.println(it);
-				}
-				//for de todos los "mensajes"
 				StringTokenizer sscanf = new StringTokenizer(string, ",");
 				String nombreArtista= sscanf.nextToken();
 				String mensaje = sscanf.nextToken();
